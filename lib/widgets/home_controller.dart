@@ -97,7 +97,7 @@ class _HomeControllerState extends State<HomeController> {
               ),
               new Expanded(
                   child: new Container(
-                    margin: EdgeInsets.all(30.0),
+                    margin: EdgeInsets.all(25.0),
                     child: new Card(
                         color: Color(0x00000000),
                         child: new ListView.builder(
@@ -128,9 +128,11 @@ class _HomeControllerState extends State<HomeController> {
                                         child: new IconButton(
                                             icon: Icon(Icons.delete, color: Colors.white,),
                                             onPressed: () {
-                                              DatabaseClient().deletePlayer(player.id, 'player').then((int) {
-                                                recuperer();
-                                              });
+                                              if (!gameOn) {
+                                                DatabaseClient().deletePlayer(player.id, 'player').then((int) {
+                                                  recuperer();
+                                                });
+                                              }
                                             }
                                         ),
                                       ),
@@ -149,7 +151,11 @@ class _HomeControllerState extends State<HomeController> {
                                         alignment: Alignment.topRight,
                                         disabledColor: Colors.white,
                                         color: Colors.white,
-                                        onPressed: ajouter)
+                                        onPressed: (){
+                                          if (!gameOn) {
+                                            ajouter();
+                                          }
+                                        })
                                 );
                               }
                             })
@@ -157,13 +163,13 @@ class _HomeControllerState extends State<HomeController> {
                   )
               ),
               new Container(
-                margin: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 50.0),
+                margin: EdgeInsets.only(left: 25.0, right: 25.0, bottom: 50.0),
                 child: new RaisedButton(
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       new Icon(Icons.play_circle_outline, size: 60, color: Colors.white),
-                      new Text((gameOn) ? "REPRENDRE" :"COMMENCER", textScaleFactor: 1.7, style: new TextStyle(
+                      new Text((players.length < 3) ? "3 Joueurs minimum" : (gameOn) ? "REPRENDRE" :"COMMENCER", textScaleFactor: 1.7, style: new TextStyle(
                           color: Colors.white
                       ),)
                     ],

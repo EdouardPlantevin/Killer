@@ -1,3 +1,4 @@
+import 'dart:async' as prefix0;
 import 'dart:io';
 import 'package:killer/model/player.dart';
 import 'package:sqflite/sqflite.dart';
@@ -61,6 +62,7 @@ class DatabaseClient {
     }
     return player;
   }
+
 
   Future<int> deletePlayer(int id, String table) async {
     Database maDatabase = await database;

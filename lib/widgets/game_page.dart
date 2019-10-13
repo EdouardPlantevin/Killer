@@ -27,6 +27,7 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
+    recuperer();
     // TODO: implement build
     return Material(
       type:  MaterialType.transparency,
@@ -67,7 +68,7 @@ class _GamePageState extends State<GamePage> {
                       itemBuilder: (context, i) {
                         Player currentPlayer = players[i];
                         return ListTile(
-                          onLongPress: () {
+                          onTap: () {
                             Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
                               return new PledgePage(currentPlayer);
                             }));
@@ -87,8 +88,8 @@ class _GamePageState extends State<GamePage> {
                   ),
                 ),
                 new Container(
-                  margin: EdgeInsets.only(bottom: 30.0),
-                  child: new Text("Appuis longtemps sur ton nom pour connaître ta cible",
+                  margin: EdgeInsets.only(bottom: 30.0, top: 30.0),
+                  child: new Text("Appuis sur ton nom pour connaître ta cible",
                     textScaleFactor: 2,
                     textAlign: TextAlign.center,
                     style: new TextStyle(

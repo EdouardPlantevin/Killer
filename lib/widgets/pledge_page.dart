@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:killer/model/Database.dart';
+import 'package:killer/model/Database.dart' as prefix0;
 import 'package:killer/model/player.dart';
 import 'package:killer/widgets/home_controller.dart';
 
@@ -30,12 +31,14 @@ class _PledgePageState extends State<PledgePage> {
 
   List<Player> players = [];
   Player enemy;
+  String counterName;
   bool show = false;
 
 
   @override
   Widget build(BuildContext context) {
     getEnemy();
+    getCounterName();
     // TODO: implement build
     return Material(
       type:  MaterialType.transparency,
@@ -76,7 +79,7 @@ class _PledgePageState extends State<PledgePage> {
                         color: Color(0x00000000),
                         child: new Container(
                           color: Color(0x00000000),
-                          child: new Text((show) ? enemy.name : "? ? ?",
+                          child: new Text((show) ? (widget.player.isAlive == 0) ? "MORT" : enemy.name : "? ? ?",
                             textAlign: TextAlign.center,
                             textScaleFactor: 2,
                             style: TextStyle(
@@ -89,7 +92,7 @@ class _PledgePageState extends State<PledgePage> {
                         color: Color(0x00000000),
                         child: new Container(
                           color: Color(0x00000000),
-                          child: new Text((show) ? widget.player.pledge : "? ? ? ? ? ? ?",
+                          child: new Text((show) ? (widget.player.isAlive == 0) ? "TU EST MORT" : widget.player.pledge : "? ? ? ? ? ? ?",
                             textAlign: TextAlign.center,
                             textScaleFactor: 2,
                             style: TextStyle(
@@ -139,9 +142,11 @@ class _PledgePageState extends State<PledgePage> {
                         elevation: 0,
                         child: new GestureDetector(
                           onTap: () {
-                            setState(() {
-                              sure();
-                            });
+                            if (widget.player.isAlive == 1) {
+                              setState(() {
+                                sure();
+                              });
+                            }
                           },
                           child: new RaisedButton(
                             onPressed: null,
@@ -170,6 +175,7 @@ class _PledgePageState extends State<PledgePage> {
   void recuperer() {
     DatabaseClient().allPlayer().then((players) {
       setState(() {
+        getCounterName();
         this.players = players;
       });
     });
@@ -180,6 +186,16 @@ class _PledgePageState extends State<PledgePage> {
       if (widget.player.enemyId == enemy.id) {
         setState(() {
           this.enemy = enemy;
+        });
+      }
+    }
+  }
+
+  void getCounterName() {
+    for (Player enemy in players) {
+      if (enemy.enemyId == widget.player.id) {
+        setState(() {
+          counterName = enemy.name;
         });
       }
     }
@@ -218,12 +234,14 @@ class _PledgePageState extends State<PledgePage> {
                       if (enemy.enemyId == widget.player.id) {
                         win();
                       } else {
-                        enemy.isAlive = 0;
-                        widget.player.enemyId = enemy.enemyId;
-                        widget.player.pledge = enemy.pledge;
-                        DatabaseClient().updatePlayer(widget.player).then((i) => recuperer());
-                        DatabaseClient().updatePlayer(enemy).then((i) => recuperer());
-                        Navigator.pop(context);
+                        setState(() {
+                          enemy.isAlive = 0;
+                          widget.player.enemyId = enemy.enemyId;
+                          widget.player.pledge = enemy.pledge;
+                          DatabaseClient().updatePlayer(enemy).then((i) => recuperer());
+                          DatabaseClient().updatePlayer(widget.player).then((i) => recuperer());
+                          Navigator.pop(context);
+                        });
                       }
                     });
                   },
