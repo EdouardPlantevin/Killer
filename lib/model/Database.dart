@@ -1,4 +1,3 @@
-import 'dart:async' as prefix0;
 import 'dart:io';
 import 'package:killer/model/player.dart';
 import 'package:sqflite/sqflite.dart';

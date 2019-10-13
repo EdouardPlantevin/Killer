@@ -7,6 +7,7 @@ import 'package:killer/model/player.dart';
 import 'package:killer/widgets/rules_page.dart';
 import 'package:killer/model/Database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:killer/widgets/alert/cant_change_player_when_game_on.dart';
 
 import 'game_page.dart';
 
@@ -132,6 +133,8 @@ class _HomeControllerState extends State<HomeController> {
                                                 DatabaseClient().deletePlayer(player.id, 'player').then((int) {
                                                   recuperer();
                                                 });
+                                              } else {
+                                                cantChangePlayerWhenGameOn(context, "Aïe, vous ne pouvez pas supprimer un joueur en pleine partie");
                                               }
                                             }
                                         ),
@@ -154,6 +157,8 @@ class _HomeControllerState extends State<HomeController> {
                                         onPressed: (){
                                           if (!gameOn) {
                                             ajouter();
+                                          } else {
+                                            cantChangePlayerWhenGameOn(context, "Aïe, vous ne pouvez pas ajouter un joueur en pleine partie");
                                           }
                                         })
                                 );

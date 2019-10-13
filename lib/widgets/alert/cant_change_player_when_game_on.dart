@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 
-Future<Null> ajouter(BuildContext context) async {
+Future<Null> cantChangePlayerWhenGameOn(BuildContext context, String message) async {
   await showDialog(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext buildContext) {
         return new AlertDialog(
           backgroundColor: Color(0xFFE35D5E),
-          title: new Text("Aie vous ne pouver pas supprimer un joueur en pleine partie",
+          title: new Text(message,
             textAlign: TextAlign.center,
             textScaleFactor: 1.5,
             style: new TextStyle(
@@ -21,7 +21,7 @@ Future<Null> ajouter(BuildContext context) async {
                   Navigator.pop(context);
                 },
                 child: new Icon(
-                  Icons.add_circle,
+                  Icons.done,
                   color: Colors.white,
                   size: 50.0,
                 )

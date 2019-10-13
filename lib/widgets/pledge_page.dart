@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:killer/model/Database.dart';
-import 'package:killer/model/Database.dart' as prefix0;
 import 'package:killer/model/player.dart';
 import 'package:killer/widgets/home_controller.dart';
 
