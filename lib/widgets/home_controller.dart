@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:killer/model/player.dart';
@@ -8,8 +7,8 @@ import 'package:killer/widgets/rules_page.dart';
 import 'package:killer/model/Database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:killer/widgets/alert/cant_change_player_when_game_on.dart';
-
 import 'game_page.dart';
+import 'package:killer/widgets/alert/add_new_player.dart';
 
 
 class HomeController extends StatefulWidget {
@@ -23,26 +22,16 @@ class HomeController extends StatefulWidget {
 
 class _HomeControllerState extends State<HomeController> {
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    recuperer();
-  }
-
   List<Player> players = [];
-  String name;
-  String key = "gameOn";
   bool gameOn = false;
 
 
   AssetImage background = AssetImage("assets/background_safe_area.png");
   AssetImage title = AssetImage("assets/title.png");
-  List<String> test = ["Edouard", "Juliette", "Alex"];
-
 
   @override
   Widget build(BuildContext context) {
+    recuperer();
     obtenir();
     return new Container(
         child: new Container(
@@ -156,7 +145,10 @@ class _HomeControllerState extends State<HomeController> {
                                         color: Colors.white,
                                         onPressed: (){
                                           if (!gameOn) {
-                                            ajouter();
+                                            setState(() {
+                                              addNewPlayer(context);
+                                              recuperer();
+                                            });
                                           } else {
                                             cantChangePlayerWhenGameOn(context, "Aïe, vous ne pouvez pas ajouter un joueur en pleine partie");
                                           }
@@ -214,74 +206,12 @@ class _HomeControllerState extends State<HomeController> {
     });
   }
 
-  // Ajout Player
-  Future<Null> ajouter() async {
-    await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext buildContext) {
-          return new AlertDialog(
-            backgroundColor: Color(0xFFE35D5E),
-            title: new Text("Ajouter un joueur",
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
-              style: new TextStyle(
-                  color: Colors.white
-              ),),
-            content: new TextField(
-              cursorColor: Colors.white,
-              style: new prefix0.TextStyle(
-                  color: Colors.white
-              ),
-              decoration: new InputDecoration(
-                  labelText: "Nom",
-                  focusColor: Colors.white,
-                  fillColor: Colors.white,
-                  hoverColor: Colors.white,
-                  hintText: "Tocard",
-                  hintStyle: new prefix0.TextStyle(
-                      color: Colors.blueGrey[500]
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white)
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white,)
-                  ),
-                  labelStyle: new TextStyle(
-                      color: Colors.white,
-                      fontSize: 25.0
-                  )
-              ),
-              onChanged: (String str) {
-                name = str;
-              },
-            ),
-            actions: <Widget>[
-              new FlatButton(
-                  onPressed: () {
-                    Map<String, dynamic> map = {'name': name, 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
-                    Player player = new Player();
-                    player.fromMap(map);
-                    DatabaseClient().addPlayer(player).then((i) => recuperer());
-                    name = null;
-                    Navigator.pop(buildContext);
-                  },
-                  child: new Icon(
-                    Icons.add_circle,
-                    color: Colors.white,
-                    size: 50.0,
-                  )
-              )
-            ],
-          );
-        }
-    );
-  }
+  // SharedPreferences
+
 
   Future<void> obtenir() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    bool game = sharedPreferences.getBool(key);
+    bool game = sharedPreferences.getBool("gameOn");
     if (game != null) {
       setState(() {
         gameOn = game;
@@ -293,7 +223,7 @@ class _HomeControllerState extends State<HomeController> {
   Future<void> gameIsOn(bool game) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     gameOn = game;
-    await sharedPreferences.setBool(key, gameOn);
+    await sharedPreferences.setBool("gameOn", gameOn);
     obtenir();
   }
 
