@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:killer/model/Database.dart';
 import 'package:killer/model/player.dart';
-import 'package:killer/widgets/home_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'alert/win_the_game.dart';
+import 'package:killer/widgets/alert/can_kill_enemy.dart';
 
 // ignore: must_be_immutable
 class PledgePage extends StatefulWidget {
@@ -146,7 +143,8 @@ class _PledgePageState extends State<PledgePage> {
                           onTap: () {
                             if (widget.player.isAlive == 1) {
                               setState(() {
-                                sure();
+                                canKillEnemy(context, widget.player, enemy);
+                                recuperer();
                               });
                             }
                           },
@@ -202,65 +200,4 @@ class _PledgePageState extends State<PledgePage> {
       }
     }
   }
-
-
-
-  Future<Null> sure() async {
-    await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext buildContext) {
-          return new AlertDialog(
-            backgroundColor: Color(0xFFE35D5E),
-            title: new Text("Tu es vraiment un boss ?",
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
-              style: new TextStyle(
-                  color: Colors.white
-              ),),
-            content: Text("Tu es sur et certain d'avoir killer ta cible ?", textScaleFactor: 1.2,),
-            actions: <Widget>[
-              new FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: new Icon(
-                    Icons.close,
-                    color: Colors.white,
-                    size: 50.0,
-                  )
-              ),
-              new FlatButton(
-                  onPressed: () {
-                    setState(() {
-                      if (enemy.enemyId == widget.player.id) {
-                        win(context);
-                      } else {
-                        setState(() {
-                          enemy.isAlive = 0;
-                          widget.player.enemyId = enemy.enemyId;
-                          widget.player.pledge = enemy.pledge;
-                          DatabaseClient().updatePlayer(enemy).then((i) => recuperer());
-                          DatabaseClient().updatePlayer(widget.player).then((i) => recuperer());
-                          Navigator.pop(context);
-                        });
-                      }
-                    });
-                  },
-                  child: new Icon(
-                    Icons.done,
-                    color: Colors.white,
-                    size: 50.0,
-                  )
-              )
-            ],
-          );
-        }
-    );
-  }
-
-
-
-
-
 }
