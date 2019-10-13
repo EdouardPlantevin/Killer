@@ -3,6 +3,9 @@ import 'package:flutter/painting.dart';
 import 'package:killer/model/Database.dart';
 import 'package:killer/model/player.dart';
 import 'package:killer/widgets/home_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'alert/win_the_game.dart';
 
 // ignore: must_be_immutable
 class PledgePage extends StatefulWidget {
@@ -231,7 +234,7 @@ class _PledgePageState extends State<PledgePage> {
                   onPressed: () {
                     setState(() {
                       if (enemy.enemyId == widget.player.id) {
-                        win();
+                        win(context);
                       } else {
                         setState(() {
                           enemy.isAlive = 0;
@@ -257,39 +260,7 @@ class _PledgePageState extends State<PledgePage> {
   }
 
 
-  Future<Null> win() async {
-    await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext buildContext) {
-          return new AlertDialog(
-            backgroundColor: Color(0xFFE35D5E),
-            title: new Text("Tu es le boss !!",
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.5,
-              style: new TextStyle(
-                  color: Colors.white
-              ),),
-            content: Text("Tu viens de reporter le droit de ....", textScaleFactor: 1.2,),
-            actions: <Widget>[
-              new FlatButton(
-                  onPressed: () {
-                    DatabaseClient().deleteAllPlayers();
-                    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
-                      return new HomeController();
-                    }));
-                  },
-                  child: new Icon(
-                    Icons.remove,
-                    color: Colors.white,
-                    size: 50.0,
-                  )
-              ),
-            ],
-          );
-        }
-    );
-  }
+
 
 
 }
