@@ -78,7 +78,7 @@ class _PledgePageState extends State<PledgePage> {
                         color: Color(0x00000000),
                         child: new Container(
                           color: Color(0x00000000),
-                          child: new Text((show) ? (widget.player.isAlive == 0) ? "MORT" : enemy.name : "? ? ?",
+                          child: new Text((show) ? (widget.player.isAlive == 0) ? "ELIMINER" : enemy.name : "? ? ?",
                             textAlign: TextAlign.center,
                             textScaleFactor: 2,
                             style: TextStyle(
@@ -91,7 +91,7 @@ class _PledgePageState extends State<PledgePage> {
                         color: Color(0x00000000),
                         child: new Container(
                           color: Color(0x00000000),
-                          child: new Text((show) ? (widget.player.isAlive == 0) ? "TU EST MORT" : widget.player.pledge : "? ? ? ? ? ? ?",
+                          child: new Text((show) ? (widget.player.isAlive == 0) ? "TU EST ELIMINER" : widget.player.pledge : "? ? ? ? ? ? ?",
                             textAlign: TextAlign.center,
                             textScaleFactor: 2,
                             style: TextStyle(
