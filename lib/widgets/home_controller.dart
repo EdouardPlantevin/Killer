@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:killer/widgets/alert/cant_change_player_when_game_on.dart';
 import 'game_page.dart';
 import 'package:killer/widgets/alert/add_new_player.dart';
+import 'package:killer/widgets/alert/cant_lunch_game.dart';
 
 
 class HomeController extends StatefulWidget {
@@ -146,7 +147,7 @@ class _HomeControllerState extends State<HomeController> {
                                         onPressed: (){
                                           if (!gameOn) {
                                             setState(() {
-                                              addNewPlayer(context);
+                                              addNewPlayer(context, players);
                                               recuperer();
                                             });
                                           } else {
@@ -181,7 +182,7 @@ class _HomeControllerState extends State<HomeController> {
                         return new GamePage();
                       }));
                     } else {
-                      print("Aller vous faire foutre");
+                      cantLunchGame(context, players.length);
                     }
                   },
                   elevation: 10.0,

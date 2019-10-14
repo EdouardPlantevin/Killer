@@ -5,8 +5,9 @@ import 'package:killer/model/player.dart';
 
 
 // Ajout Player
-Future<Null> addNewPlayer(BuildContext context) async {
+Future<Null> addNewPlayer(BuildContext context, List<Player> players) async {
   String name;
+  bool canAddPlayer = true;
   await showDialog(
       context: context,
       barrierDismissible: true,
@@ -29,7 +30,7 @@ Future<Null> addNewPlayer(BuildContext context) async {
                 focusColor: Colors.white,
                 fillColor: Colors.white,
                 hoverColor: Colors.white,
-                hintText: "Tocard",
+                hintText: "Jean-Michel",
                 hintStyle: new TextStyle(
                     color: Colors.blueGrey[500]
                 ),
@@ -51,12 +52,19 @@ Future<Null> addNewPlayer(BuildContext context) async {
           actions: <Widget>[
             new FlatButton(
                 onPressed: () {
-                  Map<String, dynamic> map = {'name': name, 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
-                  Player player = new Player();
-                  player.fromMap(map);
-                  DatabaseClient().addPlayer(player);
-                  name = null;
-                  Navigator.pop(buildContext);
+                  for (Player player in players) {
+                    if(player.name == name) {
+                      canAddPlayer = false;
+                    }
+                  }
+                  if (canAddPlayer) {
+                    Map<String, dynamic> map = {'name': name, 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
+                    Player player = new Player();
+                    player.fromMap(map);
+                    DatabaseClient().addPlayer(player);
+                    name = null;
+                    Navigator.pop(buildContext);
+                  }
                 },
                 child: new Icon(
                   Icons.add_circle,
