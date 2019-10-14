@@ -89,7 +89,7 @@ class _GamePageState extends State<GamePage> {
                 ),
                 new Container(
                   margin: EdgeInsets.only(bottom: 30.0, top: 30.0),
-                  child: new Text("Appuis sur ton nom pour connaître ta cible",
+                  child: new Text("Appuie sur ton nom pour connaître ta cible",
                     textScaleFactor: 2,
                     textAlign: TextAlign.center,
                     style: new TextStyle(
