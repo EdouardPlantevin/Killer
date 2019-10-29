@@ -63,6 +63,7 @@ class _HomeControllerState extends State<HomeController> {
                           players = [];
                           recuperer();
                         });
+                        RefreshIndicatorMode.refresh;
                       });
                     },
                     elevation: 10.0,

@@ -63,7 +63,6 @@ class Player {
         samePlayer = null;
       }
     }
-
     players = arrayOfPlayers;
     players = attributePledge(players);
     //DatabaseClient().deleteAllPlayers();
@@ -73,13 +72,19 @@ class Player {
   }
 
   List<Player> attributePledge(List<Player> players) {
+
+    List<String> pledgeUse = [];
+
     for (Player player in players) {
       Random rnd = new Random();
       var index = rnd.nextInt(prefix0.pledge.length);
       var currentPledge = prefix0.pledge[index];
+      pledgeUse.add(currentPledge);
       player.pledge = currentPledge;
       prefix0.pledge.remove(currentPledge);
-
+    }
+    for (String pledge in pledgeUse) {
+      prefix0.pledge.add(pledge);
     }
     return players;
   }
