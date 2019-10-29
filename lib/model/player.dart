@@ -65,7 +65,8 @@ class Player {
     }
     players = arrayOfPlayers;
     players = attributePledge(players);
-    //DatabaseClient().deleteAllPlayers();
+
+    // Update player in Database
     for (Player player in players) {
       DatabaseClient().updatePlayer(player);
     }
