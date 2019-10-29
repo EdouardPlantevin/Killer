@@ -68,9 +68,11 @@ class DatabaseClient {
     return await maDatabase.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
-  void deleteAllPlayers() async {
+  Future deleteAllPlayer(String table, List<Player> players) async {
     Database maDatabase = await database;
-    maDatabase.delete("player");
+    for (Player player in players) {
+      maDatabase.delete(table, where: 'id = ?', whereArgs: [player.id]);
+    }
   }
 
 

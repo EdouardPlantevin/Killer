@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:killer/model/Database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../home_controller.dart';
 
@@ -21,7 +20,6 @@ Future<Null> win(BuildContext context) async {
             new FlatButton(
                 onPressed: () {
                   gameIsOff();
-                  DatabaseClient().deleteAllPlayers();
                   Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
                     return new HomeController();
                   }));

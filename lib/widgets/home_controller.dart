@@ -58,8 +58,11 @@ class _HomeControllerState extends State<HomeController> {
                     onPressed: () {
                       setState(() {
                         gameIsOn(false);
-                        DatabaseClient().deleteAllPlayers();
-                        recuperer();
+                        DatabaseClient().deleteAllPlayer("player", players);
+                        setState(() {
+                          players = [];
+                          recuperer();
+                        });
                       });
                     },
                     elevation: 10.0,
@@ -75,9 +78,12 @@ class _HomeControllerState extends State<HomeController> {
                       ),
                     ),
                     onPressed: () {
+                      addPlayerwesh();
+
                       Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
                         return new RulesPage();
                       }));
+
                     },
                     elevation: 10.0,
                     padding: EdgeInsets.all(15),
@@ -145,6 +151,9 @@ class _HomeControllerState extends State<HomeController> {
                                         disabledColor: Colors.white,
                                         color: Colors.white,
                                         onPressed: (){
+                                          for (Player player in players) {
+                                            print(player.name);
+                                          }
                                           if (!gameOn) {
                                             setState(() {
                                               addNewPlayer(context, players);
@@ -161,7 +170,7 @@ class _HomeControllerState extends State<HomeController> {
                   )
               ),
               new Container(
-                margin: EdgeInsets.only(left: 25.0, right: 25.0, bottom: 50.0),
+                margin: EdgeInsets.only(left: 25.0, right: 25.0, bottom: 20.0),
                 child: new RaisedButton(
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -214,9 +223,7 @@ class _HomeControllerState extends State<HomeController> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool game = sharedPreferences.getBool("gameOn");
     if (game != null) {
-      setState(() {
         gameOn = game;
-      });
     }
   }
 
@@ -226,6 +233,19 @@ class _HomeControllerState extends State<HomeController> {
     gameOn = game;
     await sharedPreferences.setBool("gameOn", gameOn);
     obtenir();
+  }
+
+  void addPlayerwesh() {
+    int a = 0;
+    List<String> test = ["Edouard", "Satan", "Babar", "Tortue", "Magasin"];
+        while (a < 5) {
+          Map<String, dynamic> map = {'name': test[a], 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
+          Player player = new Player();
+          player.fromMap(map);
+          DatabaseClient().addPlayer(player);
+          a++;
+        }
+        recuperer();
   }
 
 }

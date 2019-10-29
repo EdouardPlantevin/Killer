@@ -39,33 +39,47 @@ class Player {
 
   void attributeEnemy(List<Player> players) {
 
-    List<Player> playersEnemy = players;
-    int index = 0;
+    List<Player> arrayOfPlayers = List.from(players);
+    List<Player> arrayOfEnemy = List.from(players);
+    Player samePlayer;
 
     for (Player player in players) {
-      while (player.id == playersEnemy[index].id || player.id == playersEnemy[index].enemyId || playersEnemy[index].hasCounter == 1) {
-        var randomizer = new Random();
-        index = randomizer.nextInt(players.length);
+      //Remove enemyCounter
+      for (Player enemy in arrayOfPlayers) {
+        if (enemy.id == player.id) {
+          if (arrayOfEnemy.contains(enemy)) {
+            samePlayer = enemy;
+            arrayOfEnemy.remove(enemy);
+          }
+        }
       }
-      var indexEnemy = players.indexOf(playersEnemy[index]);
-      players[indexEnemy].hasCounter = 1;
-      player.enemyId = playersEnemy[index].id;
-      playersEnemy = players;
+
+      Random rnd = new Random();
+      var randEnemy = arrayOfEnemy[rnd.nextInt(arrayOfEnemy.length)];
+      player.enemyId = randEnemy.id;
+      arrayOfEnemy.remove(randEnemy);
+      if (samePlayer != null) {
+        arrayOfEnemy.add(samePlayer);
+        samePlayer = null;
+      }
     }
 
+    players = arrayOfPlayers;
     players = attributePledge(players);
-    DatabaseClient().deleteAllPlayers();
+    //DatabaseClient().deleteAllPlayers();
     for (Player player in players) {
-      DatabaseClient().addPlayer(player);
+      DatabaseClient().updatePlayer(player);
     }
   }
 
   List<Player> attributePledge(List<Player> players) {
     for (Player player in players) {
-      var randomizer = new Random();
-      int index = randomizer.nextInt(prefix0.pledge.length);
-      player.pledge = prefix0.pledge[index];
-      prefix0.pledge.removeAt(index);
+      Random rnd = new Random();
+      var index = rnd.nextInt(prefix0.pledge.length);
+      var currentPledge = prefix0.pledge[index];
+      player.pledge = currentPledge;
+      prefix0.pledge.remove(currentPledge);
+
     }
     return players;
   }
