@@ -42,6 +42,7 @@ class Player {
     List<Player> arrayOfPlayers = List.from(players);
     List<Player> arrayOfEnemy = List.from(players);
     Player samePlayer;
+    Player counter;
 
     for (Player player in players) {
       //Remove enemyCounter
@@ -52,6 +53,10 @@ class Player {
             arrayOfEnemy.remove(enemy);
           }
         }
+        if (enemy.enemyId == player.id) {
+          counter = enemy;
+          arrayOfEnemy.remove(enemy);
+        }
       }
 
       Random rnd = new Random();
@@ -61,6 +66,10 @@ class Player {
       if (samePlayer != null) {
         arrayOfEnemy.add(samePlayer);
         samePlayer = null;
+      }
+      if (counter != null) {
+        arrayOfEnemy.add(counter);
+        counter = null;
       }
     }
     players = arrayOfPlayers;

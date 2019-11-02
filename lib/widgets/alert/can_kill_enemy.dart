@@ -10,6 +10,9 @@ Future<Null> canKillEnemy(BuildContext context, Player player, Player enemy) asy
       barrierDismissible: true,
       builder: (BuildContext buildContext) {
         return new AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))
+          ),
           backgroundColor: Color(0xFFE35D5E),
           title: new Text("Tu es vraiment un boss ?",
             textAlign: TextAlign.center,
@@ -17,7 +20,7 @@ Future<Null> canKillEnemy(BuildContext context, Player player, Player enemy) asy
             style: new TextStyle(
                 color: Colors.white
             ),),
-          content: Text("Tu es sur et certain d'avoir killer ta cible ?", textScaleFactor: 1.2,),
+          content: Text("Tu es sûr et certain d'avoir killé ta cible ?", textScaleFactor: 1.2,),
           actions: <Widget>[
             new FlatButton(
                 onPressed: () {

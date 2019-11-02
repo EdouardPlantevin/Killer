@@ -8,6 +8,9 @@ Future<Null> win(BuildContext context) async {
       barrierDismissible: true,
       builder: (BuildContext buildContext) {
         return new AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))
+          ),
           backgroundColor: Color(0xFFE35D5E),
           title: new Text("Tu es le boss !!",
             textAlign: TextAlign.center,
