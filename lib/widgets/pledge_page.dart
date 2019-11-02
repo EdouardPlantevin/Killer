@@ -105,9 +105,12 @@ class _PledgePageState extends State<PledgePage> {
                 new Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    new Card(
-                        color: Color(0xFFE35D5E),
-                        elevation: 0,
+                    new Container(
+                        decoration: new BoxDecoration(
+                          borderRadius: new BorderRadius.all(Radius.circular(5.0)),
+                          color: Color(0xFFE35D5E),
+                        ),
+                        width: MediaQuery.of(context).size.width / 1.2,
                         child: new GestureDetector(
                           onLongPress: () {
                             setState(() {
@@ -134,11 +137,14 @@ class _PledgePageState extends State<PledgePage> {
                         )
                     ),
                     new Container(
-                      height: 10.0,
+                      height: 20.0,
                     ),
-                    new Card(
-                        color: Color(0xFFE35D5E),
-                        elevation: 0,
+                    new Container(
+                        decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.all(Radius.circular(5.0)),
+                            color: Color(0xFFE35D5E),
+                        ),
+                        width: MediaQuery.of(context).size.width / 1.2,
                         child: new GestureDetector(
                           onTap: () {
                             if (widget.player.isAlive == 1) {
