@@ -12,7 +12,7 @@ Future<Null> cantLunchGame(BuildContext context, int nbOfPlayers) async {
       builder: (BuildContext buildContext) {
         return new AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))
+              borderRadius: BorderRadius.all(Radius.circular(5.0))
           ),
           backgroundColor: Color(0xFFE35D5E),
           title: title,

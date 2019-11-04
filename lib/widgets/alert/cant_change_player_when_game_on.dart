@@ -8,7 +8,7 @@ Future<Null> cantChangePlayerWhenGameOn(BuildContext context, String message) as
       builder: (BuildContext buildContext) {
         return new AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))
+              borderRadius: BorderRadius.all(Radius.circular(5.0))
           ),
           backgroundColor: Color(0xFFE35D5E),
           title: new Text(message,

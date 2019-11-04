@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:killer/model/player.dart';
+import 'package:killer/widgets/alert/loading_alert.dart';
 import 'package:killer/widgets/rules_page.dart';
 import 'package:killer/model/Database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +13,6 @@ import 'package:killer/widgets/alert/cant_change_player_when_game_on.dart';
 import 'game_page.dart';
 import 'package:killer/widgets/alert/add_new_player.dart';
 import 'package:killer/widgets/alert/cant_lunch_game.dart';
-
 
 class HomeController extends StatefulWidget {
   HomeController({Key key, this.title}) : super(key: key);
@@ -32,8 +34,8 @@ class _HomeControllerState extends State<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    recuperer();
-    obtenir();
+    getAllPlayerFromDatabase();
+    getStateOfGame();
     return new Container(
         child: new Container(
           width: MediaQuery.of(context).size.width,
@@ -61,7 +63,7 @@ class _HomeControllerState extends State<HomeController> {
                         DatabaseClient().deleteAllPlayer("player", players);
                         setState(() {
                           players = [];
-                          recuperer();
+                          getAllPlayerFromDatabase();
                         });
                       });
                     },
@@ -78,8 +80,7 @@ class _HomeControllerState extends State<HomeController> {
                       ),
                     ),
                     onPressed: () {
-                      addPlayerwesh();
-
+                      _createPlayer();
                       Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
                         return new RulesPage();
                       }));
@@ -127,7 +128,7 @@ class _HomeControllerState extends State<HomeController> {
                                             onPressed: () {
                                               if (!gameOn) {
                                                 DatabaseClient().deletePlayer(player.id, 'player').then((int) {
-                                                  recuperer();
+                                                  getAllPlayerFromDatabase();
                                                 });
                                               } else {
                                                 cantChangePlayerWhenGameOn(context, "Aïe, vous ne pouvez pas supprimer un joueur en pleine partie");
@@ -157,7 +158,7 @@ class _HomeControllerState extends State<HomeController> {
                                           if (!gameOn) {
                                             setState(() {
                                               addNewPlayer(context, players);
-                                              recuperer();
+                                              getAllPlayerFromDatabase();
                                             });
                                           } else {
                                             cantChangePlayerWhenGameOn(context, "Aïe, vous ne pouvez pas ajouter un joueur en pleine partie");
@@ -170,7 +171,7 @@ class _HomeControllerState extends State<HomeController> {
                   )
               ),
               new Container(
-                margin: EdgeInsets.only(left: 25.0, right: 25.0, bottom: 20.0),
+                margin: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 20.0),
                 child: new RaisedButton(
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -186,10 +187,13 @@ class _HomeControllerState extends State<HomeController> {
                       if (!gameOn) {
                         gameIsOn(true);
                         Player().attributeEnemy(players);
+                        _animatedFlutterLogoState();
+                        loadingAlert(context);
+                      } else {
+                        Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
+                          return new GamePage();
+                        }));
                       }
-                      Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
-                        return new GamePage();
-                      }));
                     } else {
                       cantLunchGame(context, players.length);
                     }
@@ -208,7 +212,7 @@ class _HomeControllerState extends State<HomeController> {
 
   // DATABASE
 
-  void recuperer() {
+  void getAllPlayerFromDatabase() {
     DatabaseClient().allPlayer().then((players) {
       setState(() {
         this.players = players;
@@ -219,7 +223,7 @@ class _HomeControllerState extends State<HomeController> {
   // SharedPreferences
 
 
-  Future<void> obtenir() async {
+  Future<void> getStateOfGame() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     bool game = sharedPreferences.getBool("gameOn");
     if (game != null) {
@@ -232,20 +236,28 @@ class _HomeControllerState extends State<HomeController> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     gameOn = game;
     await sharedPreferences.setBool("gameOn", gameOn);
-    obtenir();
+    getStateOfGame();
   }
 
-  void addPlayerwesh() {
-    int a = 0;
-    List<String> test = ["Edouard", "Satan", "Babar", "Tortue", "Magasin"];
-        while (a < 5) {
-          Map<String, dynamic> map = {'name': test[a], 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
-          Player player = new Player();
-          player.fromMap(map);
-          DatabaseClient().addPlayer(player);
-          a++;
-        }
-        recuperer();
+  _animatedFlutterLogoState() {
+    new Timer(const Duration(milliseconds: 2000), () {
+      prefix0.Navigator.pop(context);
+      Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
+        return new GamePage();
+      }));
+    });
+  }
+
+  _createPlayer() {
+    int name = 1;
+    while (name != 31) {
+      Map<String, dynamic> map = {'name': "${name}", 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
+      Player player = new Player();
+      player.fromMap(map);
+      DatabaseClient().addPlayer(player);
+      name++;
+    }
+    getAllPlayerFromDatabase();
   }
 
 }

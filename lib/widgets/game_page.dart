@@ -17,7 +17,7 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    recuperer();
+    getAllPlayerFromDatabase();
   }
 
   AssetImage background = AssetImage("assets/background_safe_area.png");
@@ -27,7 +27,7 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    recuperer();
+    getAllPlayerFromDatabase();
     // TODO: implement build
     return Material(
       type:  MaterialType.transparency,
@@ -61,6 +61,7 @@ class _GamePageState extends State<GamePage> {
                 ),
                 new Expanded(
                   child: new Card(
+                    margin: EdgeInsets.only(top: 5.0),
                     elevation: 0,
                     color: Color(0x00000000),
                     child: new ListView.builder(
@@ -69,6 +70,7 @@ class _GamePageState extends State<GamePage> {
                         Player currentPlayer = players[i];
                         return ListTile(
                           onTap: () {
+                            _test();
                             Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
                               return new PledgePage(currentPlayer);
                             }));
@@ -88,7 +90,7 @@ class _GamePageState extends State<GamePage> {
                   ),
                 ),
                 new Container(
-                  margin: EdgeInsets.only(bottom: 30.0, top: 30.0),
+                  margin: EdgeInsets.only(bottom: 30.0, top: 10.0),
                   child: new Text("Appuie sur ton nom pour connaître ta cible",
                     textScaleFactor: 2,
                     textAlign: TextAlign.center,
@@ -105,12 +107,24 @@ class _GamePageState extends State<GamePage> {
   }
 
 
-  void recuperer() {
+  void getAllPlayerFromDatabase() {
     DatabaseClient().allPlayer().then((players) {
       setState(() {
         this.players = players;
       });
     });
+  }
+
+  void _test() {
+    Player currentEnemy;
+    for (Player player in players) {
+      for (Player enemy in players) {
+        if (player.enemyId == enemy.id) {
+          currentEnemy = enemy;
+        }
+      }
+      print("${player.name} à pour enemy ${currentEnemy.name}");
+    }
   }
 
 

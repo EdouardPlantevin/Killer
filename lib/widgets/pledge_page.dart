@@ -22,7 +22,7 @@ class _PledgePageState extends State<PledgePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    recuperer();
+    getAllPlayerFromDatabase();
   }
 
   AssetImage background = AssetImage("assets/background_safe_area.png");
@@ -150,7 +150,7 @@ class _PledgePageState extends State<PledgePage> {
                             if (widget.player.isAlive == 1) {
                               setState(() {
                                 canKillEnemy(context, widget.player, enemy);
-                                recuperer();
+                                getAllPlayerFromDatabase();
                               });
                             }
                           },
@@ -178,7 +178,7 @@ class _PledgePageState extends State<PledgePage> {
   }
 
 
-  void recuperer() {
+  void getAllPlayerFromDatabase() {
     DatabaseClient().allPlayer().then((players) {
       setState(() {
         getCounterName();

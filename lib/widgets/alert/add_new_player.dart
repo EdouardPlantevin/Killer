@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:killer/model/Database.dart';
 import 'package:killer/model/player.dart';
 
-
-
 // Ajout Player
 Future<Null> addNewPlayer(BuildContext context, List<Player> players) async {
   String name;
@@ -14,7 +12,7 @@ Future<Null> addNewPlayer(BuildContext context, List<Player> players) async {
       builder: (BuildContext buildContext) {
         return new AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0))
+              borderRadius: BorderRadius.all(Radius.circular(5.0))
           ),
           backgroundColor: Color(0xFFE35D5E),
           title: new Text("Ajouter un joueur",
@@ -58,6 +56,7 @@ Future<Null> addNewPlayer(BuildContext context, List<Player> players) async {
                   for (Player player in players) {
                     if(player.name == name) {
                       canAddPlayer = false;
+                      nameAlreadyUse(context);
                     }
                   }
                   if (canAddPlayer) {
@@ -75,6 +74,40 @@ Future<Null> addNewPlayer(BuildContext context, List<Player> players) async {
                   size: 50.0,
                 )
             )
+          ],
+        );
+      }
+  );
+}
+
+
+Future<Null> nameAlreadyUse(BuildContext context) async {
+  await showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext buildContext) {
+        return new AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(5.0))
+          ),
+          backgroundColor: Color(0xFFE35D5E),
+          title: new Text("Ce nom est déjà pris",
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.5,
+            style: new TextStyle(
+                color: Colors.white
+            ),),
+          actions: <Widget>[
+            new FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: new Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: 50.0,
+                )
+            ),
           ],
         );
       }

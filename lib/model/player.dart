@@ -45,6 +45,7 @@ class Player {
     Player counter;
 
     for (Player player in players) {
+
       //Remove enemyCounter
       for (Player enemy in arrayOfPlayers) {
         if (enemy.id == player.id) {
@@ -54,15 +55,30 @@ class Player {
           }
         }
         if (enemy.enemyId == player.id) {
-          counter = enemy;
-          arrayOfEnemy.remove(enemy);
+          if (arrayOfEnemy.contains(enemy)) {
+            counter = enemy;
+            arrayOfEnemy.remove(enemy);
+          }
+        }
+        if (player.hasCounter == 1) {
+          arrayOfEnemy.remove(player);
         }
       }
 
-      Random rnd = new Random();
-      var randEnemy = arrayOfEnemy[rnd.nextInt(arrayOfEnemy.length)];
-      player.enemyId = randEnemy.id;
-      arrayOfEnemy.remove(randEnemy);
+        Random rnd = new Random();
+        var randEnemy = arrayOfEnemy[rnd.nextInt(arrayOfEnemy.length)];
+        player.enemyId = randEnemy.id;
+        arrayOfEnemy.remove(randEnemy);
+
+        for (Player player in arrayOfPlayers) {
+          if (player.id == randEnemy.id) {
+            player.hasCounter == 1;
+          }
+        }
+
+
+
+
       if (samePlayer != null) {
         arrayOfEnemy.add(samePlayer);
         samePlayer = null;
