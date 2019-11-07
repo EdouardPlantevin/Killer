@@ -56,7 +56,7 @@ class Player {
       if (index != arrayOfPlayers.length) {
         player.enemyId = arrayOfPlayers[index].id;
       } else {
-        player.enemyId = players[0].id;
+        player.enemyId = arrayOfPlayers[0].id;
       }
       index++;
     }
