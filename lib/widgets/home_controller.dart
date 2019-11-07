@@ -250,7 +250,7 @@ class _HomeControllerState extends State<HomeController> {
 
   _createPlayer() {
     int name = 1;
-    while (name != 31) {
+    while (name != 11) {
       Map<String, dynamic> map = {'name': "${name}", 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
       Player player = new Player();
       player.fromMap(map);

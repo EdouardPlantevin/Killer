@@ -39,19 +39,28 @@ class Player {
 
   void attributeEnemy(List<Player> players) {
 
-    int index = 1;
+    List<Player> arrayOfEnemy = List.from(players);
+    List<Player> arrayOfPlayers = List<Player>();
+
     for (Player player in players) {
+      Random rnd = new Random();
+      var randPlayer = arrayOfEnemy[rnd.nextInt(arrayOfEnemy.length)];
+      arrayOfPlayers.add(randPlayer);
+      arrayOfEnemy.remove(randPlayer);
+    }
+
+
+
+    int index = 1;
+    for (Player player in arrayOfPlayers) {
       if (index != players.length) {
-        print("-------");
-        print(player.id);
-        print(players[index].id);
-        print("-------");
         player.enemyId = players[index].id;
       } else {
         player.enemyId = players[0].id;
       }
       index++;
     }
+    players = arrayOfPlayers;
     players = attributePledge(players);
 
     // Update player in Database
