@@ -42,6 +42,7 @@ class Player {
     List<Player> arrayOfEnemy = List.from(players);
     List<Player> arrayOfPlayers = List<Player>();
 
+    // ignore: unused_local_variable
     for (Player player in players) {
       Random rnd = new Random();
       var randPlayer = arrayOfEnemy[rnd.nextInt(arrayOfEnemy.length)];

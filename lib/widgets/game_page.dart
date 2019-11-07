@@ -70,7 +70,6 @@ class _GamePageState extends State<GamePage> {
                         Player currentPlayer = players[i];
                         return ListTile(
                           onTap: () {
-                            _test();
                             Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
                               return new PledgePage(currentPlayer);
                             }));
@@ -113,18 +112,6 @@ class _GamePageState extends State<GamePage> {
         this.players = players;
       });
     });
-  }
-
-  void _test() {
-    Player currentEnemy;
-    for (Player player in players) {
-      for (Player enemy in players) {
-        if (player.enemyId == enemy.id) {
-          currentEnemy = enemy;
-        }
-      }
-      print("${player.name} à pour enemy ${currentEnemy.name}");
-    }
   }
 
 

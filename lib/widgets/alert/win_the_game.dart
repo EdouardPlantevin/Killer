@@ -18,7 +18,7 @@ Future<Null> win(BuildContext context) async {
             style: new TextStyle(
                 color: Colors.white
             ),),
-          content: Text("Tu viens de reporter le droit de ....", textScaleFactor: 1.2,),
+          content: Text("Tu viens de reporter le droit de m'aider financièrement, Bravo ! (3000-4000 euros suffiront)", textScaleFactor: 1.2,),
           actions: <Widget>[
             new FlatButton(
                 onPressed: () {

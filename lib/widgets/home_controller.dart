@@ -80,7 +80,6 @@ class _HomeControllerState extends State<HomeController> {
                       ),
                     ),
                     onPressed: () {
-                      _createPlayer();
                       Navigator.push(context, new MaterialPageRoute(builder: (BuildContext buildContext) {
                         return new RulesPage();
                       }));
@@ -246,18 +245,6 @@ class _HomeControllerState extends State<HomeController> {
         return new GamePage();
       }));
     });
-  }
-
-  _createPlayer() {
-    int name = 1;
-    while (name != 11) {
-      Map<String, dynamic> map = {'name': "${name}", 'pledge': 'lol', 'isAlive': 1, 'enemyId' : null, 'hasCounter' : null};
-      Player player = new Player();
-      player.fromMap(map);
-      DatabaseClient().addPlayer(player);
-      name++;
-    }
-    getAllPlayerFromDatabase();
   }
 
 }
