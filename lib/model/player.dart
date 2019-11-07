@@ -53,8 +53,8 @@ class Player {
 
     int index = 1;
     for (Player player in arrayOfPlayers) {
-      if (index != players.length) {
-        player.enemyId = players[index].id;
+      if (index != arrayOfPlayers.length) {
+        player.enemyId = arrayOfPlayers[index].id;
       } else {
         player.enemyId = players[0].id;
       }
