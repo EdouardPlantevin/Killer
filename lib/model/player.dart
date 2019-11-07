@@ -39,56 +39,19 @@ class Player {
 
   void attributeEnemy(List<Player> players) {
 
-    List<Player> arrayOfPlayers = List.from(players);
-    List<Player> arrayOfEnemy = List.from(players);
-    Player samePlayer;
-    Player counter;
-
+    int index = 1;
     for (Player player in players) {
-
-      //Remove enemyCounter
-      for (Player enemy in arrayOfPlayers) {
-        if (enemy.id == player.id) {
-          if (arrayOfEnemy.contains(enemy)) {
-            samePlayer = enemy;
-            arrayOfEnemy.remove(enemy);
-          }
-        }
-        if (enemy.enemyId == player.id) {
-          if (arrayOfEnemy.contains(enemy)) {
-            counter = enemy;
-            arrayOfEnemy.remove(enemy);
-          }
-        }
-        if (player.hasCounter == 1) {
-          arrayOfEnemy.remove(player);
-        }
+      if (index != players.length) {
+        print("-------");
+        print(player.id);
+        print(players[index].id);
+        print("-------");
+        player.enemyId = players[index].id;
+      } else {
+        player.enemyId = players[0].id;
       }
-
-        Random rnd = new Random();
-        var randEnemy = arrayOfEnemy[rnd.nextInt(arrayOfEnemy.length)];
-        player.enemyId = randEnemy.id;
-        arrayOfEnemy.remove(randEnemy);
-
-        for (Player player in arrayOfPlayers) {
-          if (player.id == randEnemy.id) {
-            player.hasCounter == 1;
-          }
-        }
-
-
-
-
-      if (samePlayer != null) {
-        arrayOfEnemy.add(samePlayer);
-        samePlayer = null;
-      }
-      if (counter != null) {
-        arrayOfEnemy.add(counter);
-        counter = null;
-      }
+      index++;
     }
-    players = arrayOfPlayers;
     players = attributePledge(players);
 
     // Update player in Database
@@ -127,3 +90,64 @@ class Player {
 
 
 }
+
+
+// Random attribute player
+
+/*
+
+        List<Player> arrayOfPlayers = List.from(players);
+    List<Player> arrayOfEnemy = List.from(players);
+    Player samePlayer;
+    Player counter;
+
+    for (Player player in players) {
+
+        //Remove enemyCounter
+        for (Player enemy in arrayOfPlayers) {
+          if (enemy.id == player.id) {
+            if (arrayOfEnemy.contains(enemy)) {
+              samePlayer = enemy;
+              arrayOfEnemy.remove(enemy);
+            }
+          }
+          if (enemy.enemyId == player.id) {
+            if (arrayOfEnemy.contains(enemy)) {
+              counter = enemy;
+              arrayOfEnemy.remove(enemy);
+            }
+          }
+          if (enemy.hasCounter == 1) {
+            if (arrayOfEnemy.contains(enemy)) {
+              arrayOfEnemy.remove(enemy);
+            }
+          }
+        }
+
+
+
+        Random rnd = new Random();
+        var randEnemy = arrayOfEnemy[rnd.nextInt(arrayOfEnemy.length)];
+        player.enemyId = randEnemy.id;
+        arrayOfEnemy.remove(randEnemy);
+
+        for (Player player in arrayOfPlayers) {
+          if (player.id == randEnemy.id) {
+            player.hasCounter == 1;
+          }
+        }
+
+
+
+
+      if (samePlayer != null) {
+        arrayOfEnemy.add(samePlayer);
+        samePlayer = null;
+      }
+      if (counter != null) {
+        arrayOfEnemy.add(counter);
+        counter = null;
+      }
+    }
+
+     */
