@@ -82,6 +82,7 @@ Future<Null> addNewPlayer(BuildContext context, List<Player> players) async {
 
 
 Future<Null> nameAlreadyUse(BuildContext context) async {
+  Navigator.pop(context);
   await showDialog(
       context: context,
       barrierDismissible: true,
